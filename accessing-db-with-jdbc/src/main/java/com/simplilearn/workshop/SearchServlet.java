@@ -38,20 +38,25 @@ public class SearchServlet extends HttpServlet {
 			out.println("<TH>Last Name </TH>");
 			out.println("<TH>User Name </TH>");
 			out.println("<TH>Password </TH>");
+			out.println("<TH></TH>");
+			out.println("<TH></TH>");
 			out.println("</TR>");
 			
-			String sql = "select firstname, lastname, username,password" +
+			String sql = "select id ,firstname, lastname, username,password" +
 						" FROM users" +
 						" WHERE firstname LIKE '%" + StringUtil.fixSqlFieldValue(keyword)+"%'"+
 						" OR lastname LIKE '%" + StringUtil.fixSqlFieldValue(keyword) +"%'";
 			ResultSet rs = s.executeQuery(sql);
 
 			while ( rs.next() ) {
+				String id = rs.getString(1);
 				out.println("<TR>");
-				out.println("<TD>" + StringUtil.encodeHtmlTag(rs.getString(1)) +"</TD>");
 				out.println("<TD>" + StringUtil.encodeHtmlTag(rs.getString(2)) +"</TD>");
 				out.println("<TD>" + StringUtil.encodeHtmlTag(rs.getString(3)) +"</TD>");
 				out.println("<TD>" + StringUtil.encodeHtmlTag(rs.getString(4)) +"</TD>");
+				out.println("<TD>" + StringUtil.encodeHtmlTag(rs.getString(5)) +"</TD>");
+				out.println("<TD><A HREF=DeleteServlet?id="+id+">Delete</A></TD>");
+				out.println("<TD><A HREF=UpdateServlet?id="+id+">Update</A></TD>");
 				out.println("</TR>");
 			}
 			rs.close();
